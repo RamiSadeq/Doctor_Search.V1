@@ -14,12 +14,12 @@ class Specialty extends Model
     //  relate specialties with subspecialties or doctors
     public function doctors()
     {
-        return $this->hasMany(Doctor::class);
+        return $this->belongsTo(Doctor::class);
     }
 
-    public function subspecialties()
+/*    public function subspecialties()
     {
         return $this->hasMany(Subspecialty::class);
-    }
+    }*/
 }
 
