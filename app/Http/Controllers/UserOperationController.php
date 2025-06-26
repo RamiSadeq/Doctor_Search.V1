@@ -7,8 +7,7 @@ use App\Models\Governorate;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Subspecialty;
-use App\Models\Specialty;
+use Illuminate\Support\Facades\Auth;
 
 class UserOperationController
 {
@@ -54,14 +53,64 @@ $governorate=Governorate::all();
     ]);
    // dd($user);
 
-        return redirect('/user/register')->with('success', 'Registration successful. Please login.');
+        return redirect('/user/login')->with('success', 'Registration successful. Please login.');
      } catch (\Exception $e) {
         dd($e);
         // هنا يمكن تسجيل الخطأ أو عرضه
         return redirect()->back()->withErrors(['error' => 'حدث خطأ أثناء التسجيل: ' . $e->getMessage()]);
     }
     }
+//end user reg section
+//init user log in
+public function showLoginForm()
+    {
+        return view('user_login_view');
+    }
 
+    public function login(Request $request)
+    {
+       /* $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+       
+    ]);
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::guard('web')->attempt($credentials)) {
+            return redirect()->intended('/user/dashboard');
+        }
+
+        return back()->withErrors(['email' => 'Invalid credentials']);
+        */
+          $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+    ]);
+
+    // البحث عن المستخدم باستخدام البريد الإلكتروني
+    $user = User::where('email', $request->email)->first();
+   dd($user);
+   $passwordx=Hash::make($request->password);
+ //dd($passwordx);
+   // التأكد من أن المستخدم موجود وكلمة المرور صحيحة
+    if ($user && Hash::check($request->password, $user->password_hash)) {
+       //  dd($user);
+        Auth::login($user); // تسجيل الدخول يدويًا
+        return redirect()->intended('/user/register');
+    }
+
+    // إذا فشل التحقق
+    return back()->withErrors([
+        'email' => 'بيانات الدخول غير صحيحة.',
+    ]);
+    }
+
+    public function logout()
+    {
+        Auth::guard('web')->logout();
+        return redirect('/login/user');
+    }
+//end user login section
     public function index()
     {
         //

@@ -77,6 +77,8 @@ Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('us
 Route::prefix('user')->group(function () {
     Route::get('register', [UserOperationController::class, 'showRegisterForm']);
     Route::post('register', [UserOperationController::class, 'register'])->name('user.reg');
+    Route::get('login', [UserOperationController::class, 'showLoginForm']);
+    Route::post('login', [UserOperationController::class, 'login'])->name('user.login');
 
 
 
