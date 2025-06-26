@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Subspecialty;
+use App\Models\Specialty;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 
 class DoctorController
@@ -9,14 +11,16 @@ class DoctorController
    public function index()
     {
         $doctors = Doctor::with(['specialty', 'subspecialty'])->get();
-        return view('doctors.index', compact('doctors'));
+        print_r($doctors); 
+               return view('doctors.index', compact('doctors'));
     }
      public function create()
     {
-        $specialties = Specialty::all();
-        $subspecialties = Subspecialty::all();
-        return view('doctors.create', compact('specialties', 'subspecialties'));
-    }
+     $specialties = Specialty::all();
+    $subspecialties = Subspecialty::all();
+    $doctors = Doctor::with(['specialty', 'subspecialty'])->latest()->get();
+
+    return view('doctors.create', compact('specialties', 'subspecialties', 'doctors'));}
      public function store(Request $request)
     {
         $request->validate([

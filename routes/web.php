@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GovernorateController;
 use App\Http\Controllers\DistrictController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\SubspecialtyController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HealthFacilityController;
+use App\Http\Controllers\UserOperationController;
 
 
 
@@ -70,7 +72,18 @@ Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('us
 
 
 //
+//rout to User
+// User Registration
+Route::prefix('user')->group(function () {
+    Route::get('register', [UserOperationController::class, 'showRegisterForm']);
+    Route::post('register', [UserOperationController::class, 'register'])->name('user.reg');
 
+
+
+});
+
+
+//end route user
 ////Route of HealthFacility
 
 
@@ -78,6 +91,10 @@ Route::get('/admin/HealthFacility/create', [HealthFacilityController::class, 'cr
 Route::post('/admin/HealthFacility', [HealthFacilityController::class, 'store'])->name('health_facilities.store');
 Route::patch('/admin/HealthFacility/{healthFacility}', [HealthFacilityController::class, 'update'])->name('health_facilities.update');
 Route::delete('/admin/HealthFacility/{healthFacility}', [HealthFacilityController::class, 'destroy'])->name('health_facilities.destroy');
+
+Route::get('/doctors/create', [DoctorController::class, 'create'])->name('doctors.create');
+Route::post('/doctors/create', [DoctorController::class, 'store'])->name('doctors.store');
+Route::get('/doctors/index', [DoctorController::class, 'index'])->name('doctors.index');
 
 // Route::prefix('admin')->group(function () {
 //     Route::resource('health_facilities', HealthFacilityController::class)->only([

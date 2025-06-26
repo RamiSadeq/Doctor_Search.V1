@@ -14,7 +14,7 @@ class User extends Model
         'password_hash', 'phone_number', 'user_type',
         'governorate_id', 'district_id',
     ];
-    public function messages()
+   /* public function messages()
 {
     return [
         'username.required' => 'يرجى إدخال اسم المستخدم.',
@@ -50,7 +50,7 @@ class User extends Model
         'district_id.required' => 'يرجى اختيار المديرية.',
         'district_id.exists'   => 'المديرية المحددة غير موجودة.',
     ];
-}
+}*/
     public function governorate()
     {
         return $this->belongsTo(Governorate::class);

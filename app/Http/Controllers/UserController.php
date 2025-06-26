@@ -13,13 +13,14 @@ class UserController
 {
     public function create()
 {
-    $users = User::with(['governorate', 'district'])->get();
-    $governorates = Governorate::all();
-    $districts = District::all();
+    return view('user_reg');
+    //$users = User::with(['governorate', 'district'])->get();
+    //$governorates = Governorate::all();
+    //$districts = District::all();
 
     
 
-    return view('admin.addinguser', compact('users', 'governorates', 'districts'));
+    //return view('admin.addinguser', compact('users', 'governorates', 'districts'));
 }
 
 public function store(StoreUserRequest $request)
