@@ -89,14 +89,14 @@ public function showLoginForm()
 
     // البحث عن المستخدم باستخدام البريد الإلكتروني
     $user = User::where('email', $request->email)->first();
-   dd($user);
+  // dd($user);
    $passwordx=Hash::make($request->password);
  //dd($passwordx);
    // التأكد من أن المستخدم موجود وكلمة المرور صحيحة
     if ($user && Hash::check($request->password, $user->password_hash)) {
        //  dd($user);
         Auth::login($user); // تسجيل الدخول يدويًا
-        return redirect()->intended('/user/register');
+        return redirect()->intended('/user/dashboard');
     }
 
     // إذا فشل التحقق
@@ -104,7 +104,10 @@ public function showLoginForm()
         'email' => 'بيانات الدخول غير صحيحة.',
     ]);
     }
-
+public function showAdminDashbordForm()
+{
+    return view('admin.dashboard');
+}
     public function logout()
     {
         Auth::guard('web')->logout();

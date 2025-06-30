@@ -80,7 +80,10 @@ Route::prefix('user')->group(function () {
     Route::get('login', [UserOperationController::class, 'showLoginForm']);
     Route::post('login', [UserOperationController::class, 'login'])->name('user.login');
 
-
+Route::middleware('auth:web')->group(function () {
+        Route::get('dashboard', [UserOperationController::class, 'showAdminDashbordForm']);
+        Route::post('logout', [UserLoginController::class, 'logout']);
+    });
 
 });
 
